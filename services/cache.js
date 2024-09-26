@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 const exec = mongoose.Query.prototype.exec;
 const redis = require("redis");
-const redisUrl = "redis://127.0.0.1:6379";
 const util = require("util");
+const keys = require("../config/keys");
 
 // Let's promisify this function in order to avoid calling
 // the callback so we can know the result of reading a redis key
 // by making client.get return a promise
 
-const client = redis.createClient(redisUrl);
+const client = redis.createClient(keys.redisUrl);
 //client.get = util.promisify(client.get);
 client.hget = util.promisify(client.hget);
 

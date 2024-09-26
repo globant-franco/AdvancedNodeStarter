@@ -5,7 +5,8 @@ const userFactory = require("../factories/userFactory");
 class CustomPage {
   static async build() {
     const browser = await puppeteer.launch({
-      headless: false, // see the browser window in action just for the purpose of this course, by default set it to true
+      headless: true,
+      //headless: false, // see the browser window in action just for the purpose of this course, by default set it to true
       //args: ["--disable-dev-shm-usage"], // Fixes the error
       args: [
         "--disable-gpu",
@@ -39,7 +40,7 @@ class CustomPage {
 
     // refresh to re-render the page and read the new cookie values
     // When authentication completes user is redirected to /blogs
-    await this.page.goto("localhost:3000/blogs");
+    await this.page.goto("http://localhost:3000/blogs");
     // wait for the page to fully reload
     await this.page.waitFor('a[href="/auth/logout"]');
   }

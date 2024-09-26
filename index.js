@@ -1,3 +1,6 @@
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session"); //handles authentication and maintenance of sessions
@@ -32,7 +35,7 @@ app.use(passport.session());
 require("./routes/authRoutes")(app);
 require("./routes/blogRoutes")(app);
 
-if (["production"].includes(process.env.NODE_ENV)) {
+if (["production", "ci"].includes(process.env.NODE_ENV)) {
   app.use(express.static("client/build"));
 
   const path = require("path");
@@ -41,7 +44,10 @@ if (["production"].includes(process.env.NODE_ENV)) {
   });
 }
 
-const PORT = 5200;
+const PORT = process.env.PORT || 5200;
+
+console.log("PORT IS ", PORT);
+
 app.listen(PORT, () => {
   console.log(`Listening on port`, PORT);
 });
